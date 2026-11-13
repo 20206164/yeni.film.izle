@@ -1,15 +1,21 @@
 {
-  "name": "Yeni Film İzle",
-  "short_name": "Film İzle",
-  "start_url": "./index.html",
+  "name": "CINEFREE",
+  "short_name": "CINEFREE",
+  "start_url": "/yeni.film.izle/index.html",
+  "scope": "/yeni.film.izle/",
   "display": "standalone",
-  "background_color": "#0f1014",
+  "background_color": "#000000",
   "theme_color": "#e50914",
   "icons": [
     {
-      "src": "https://flaticon.com",
+      "src": "data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23e50914'/><polygon points='190,140 190,372 370,256' fill='%23ffffff'/></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23e50914'/><polygon points='190,140 190,372 370,256' fill='%23ffffff'/></svg>",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/svg+xml"
     }
   ]
 }
