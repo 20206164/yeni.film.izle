@@ -1,21 +1,21 @@
 {
   "name": "CINEFREE",
   "short_name": "CINEFREE",
-  "start_url": "/yeni.film.izle/index.html",
+  "start_url": "/yeni.film.izle/",
   "scope": "/yeni.film.izle/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#e50914",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23e50914'/><polygon points='190,140 190,372 370,256' fill='%23ffffff'/></svg>",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAYAAABS3GwHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABNSURBVHgB7cExAQAAAMKg9U9tCU+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA3A8YAAAF+7S0EAAAAAElFTkSuQmCC",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/png"
     },
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://w3.org' viewBox='0 0 512 512'><rect width='512' height='512' rx='100' fill='%23e50914'/><polygon points='190,140 190,372 370,256' fill='%23ffffff'/></svg>",
+      "src": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAABYSURBVHgB7cExAQAAAMKg9U9tCU+gAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgDcDwgAAAc+6X+AAAAAASUVORK5CYII=",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png"
     }
   ]
 }
