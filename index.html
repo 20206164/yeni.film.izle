@@ -1,1 +1,196 @@
 
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ücretsiz Film Sitesi</title>
+    <meta name="theme-color" content="#0f1014">
+    <style>
+        :root {
+            --bg: #0f1014;
+            --card: #181a20;
+            --accent: #e50914;
+            --text: #ffffff;
+            --muted: #a0a0a0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--bg); color: var(--text); padding-bottom: 50px; }
+        
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: rgba(15, 16, 20, 0.95);
+            position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: 1px; }
+        .search-box input {
+            background: var(--card); border: 1px solid #333; color: #fff;
+            padding: 8px 15px; border-radius: 20px; outline: none; width: 170px;
+        }
+
+        .hero {
+            height: 50vh; background: linear-gradient(to top, var(--bg) 10%, transparent 90%),
+            url('https://unsplash.com') center/cover;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 25px 5%;
+        }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 8px; }
+        .hero p { color: var(--muted); max-width: 600px; margin-bottom: 15px; font-size: 0.9rem; }
+        .btn {
+            background: var(--accent); color: #fff; border: none; padding: 10px 20px;
+            border-radius: 6px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+        }
+
+        .categories { display: flex; gap: 10px; padding: 15px 5%; overflow-x: auto; }
+        .cat-btn {
+            background: var(--card); color: var(--text); border: 1px solid #2a2d37;
+            padding: 8px 16px; border-radius: 20px; cursor: pointer; white-space: nowrap;
+        }
+        .cat-btn.active { background: var(--accent); border-color: var(--accent); }
+
+        .section-title { padding: 10px 5%; font-size: 1.2rem; }
+        .movie-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+            gap: 15px; padding: 15px 5%;
+        }
+        .movie-card {
+            background: var(--card); border-radius: 10px; overflow: hidden;
+            transition: transform 0.2s; cursor: pointer;
+        }
+        .movie-card:hover { transform: scale(1.03); }
+        .movie-card img { width: 100%; height: 210px; object-fit: cover; }
+        .movie-info { padding: 10px; }
+        .movie-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
+        .movie-meta { font-size: 0.75rem; color: var(--muted); display: flex; justify-content: space-between; }
+
+        .modal {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.94);
+            z-index: 1000; flex-direction: column; justify-content: center; align-items: center; padding: 15px;
+        }
+        .modal-content { width: 100%; max-width: 900px; }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .close-btn { background: #333; color: #fff; border: none; padding: 8px 14px; border-radius: 5px; cursor: pointer; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border-radius: 10px; overflow: hidden; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">CINEFREE</div>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Film ara..." onkeyup="filterMovies()">
+    </div>
+</header>
+
+<section class="hero">
+    <h1>Night of the Living Dead</h1>
+    <p>Korku sinemasının kült klasiği. Tamamen ücretsiz ve reklamsız olarak izleyin.</p>
+    <div>
+        <button class="btn" onclick="openPlayer('Night of the Living Dead (1968)', 'https://archive.org')">▶ Hemen İzle</button>
+    </div>
+</section>
+
+<div class="categories">
+    <button class="cat-btn active" onclick="setCategory('Tümü', this)">Tümü</button>
+    <button class="cat-btn" onclick="setCategory('Bilim Kurgu', this)">Bilim Kurgu</button>
+    <button class="cat-btn" onclick="setCategory('Korku', this)">Korku</button>
+    <button class="cat-btn" onclick="setCategory('Komedi', this)">Komedi</button>
+</div>
+
+<h2 class="section-title">Öne Çıkan Filmler</h2>
+<div class="movie-grid" id="movieGrid"></div>
+
+<div class="modal" id="playerModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="playerTitle">Film Başlığı</h3>
+            <button class="close-btn" onclick="closePlayer()">✕ Kapat</button>
+        </div>
+        <div class="video-wrapper">
+            <iframe id="videoFrame" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
+<script>
+    const movies = [
+        {
+            title: "Night of the Living Dead",
+            year: "1968",
+            category: "Korku",
+            poster: "https://wikimedia.org",
+            videoUrl: "https://archive.org"
+        },
+        {
+            title: "Plan 9 from Outer Space",
+            year: "1957",
+            category: "Bilim Kurgu",
+            poster: "https://wikimedia.org",
+            videoUrl: "https://archive.org"
+        },
+        {
+            title: "The General",
+            year: "1926",
+            category: "Komedi",
+            poster: "https://wikimedia.org",
+            videoUrl: "https://archive.org"
+        },
+        {
+            title: "Voyage to the Moon",
+            year: "1902",
+            category: "Bilim Kurgu",
+            poster: "https://wikimedia.org",
+            videoUrl: "https://archive.org"
+        }
+    ];
+
+    let currentCategory = 'Tümü';
+
+    function renderMovies(list) {
+        const grid = document.getElementById('movieGrid');
+        grid.innerHTML = '';
+        list.forEach(m => {
+            grid.innerHTML += `
+                <div class="movie-card" onclick="openPlayer('${m.title}', '${m.videoUrl}')">
+                    <img src="${m.poster}" alt="${m.title}" loading="lazy">
+                    <div class="movie-info">
+                        <div class="movie-title">${m.title}</div>
+                        <div class="movie-meta"><span>${m.year}</span><span>${m.category}</span></div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function setCategory(cat, btn) {
+        currentCategory = cat;
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterMovies();
+    }
+
+    function filterMovies() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const filtered = movies.filter(m => {
+            const matchCat = currentCategory === 'Tümü' || m.category === currentCategory;
+            const matchText = m.title.toLowerCase().includes(query) || m.category.toLowerCase().includes(query);
+            return matchCat && matchText;
+        });
+        renderMovies(filtered);
+    }
+
+    function openPlayer(title, url) {
+        document.getElementById('playerTitle').innerText = title;
+        document.getElementById('videoFrame').src = url;
+        document.getElementById('playerModal').style.display = 'flex';
+    }
+
+    function closePlayer() {
+        document.getElementById('playerModal').style.display = 'none';
+        document.getElementById('videoFrame').src = '';
+    }
+
+    renderMovies(movies);
+</script>
+</body>
+</html>
